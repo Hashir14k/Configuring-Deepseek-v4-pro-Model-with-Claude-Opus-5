@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code + DeepSeek V4 Pro — Windows 11 Setup Guide</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --orange: #d2991d;
+    --red: #f85149;
+    --code-bg: #1c2128;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    padding: 40px 20px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 8px; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 1.05em; margin-bottom: 32px; }
+  h2 { margin: 40px 0 16px; font-size: 1.35em; color: var(--accent); }
+  h3 { margin: 24px 0 10px; font-size: 1.1em; }
+  p { margin: 8px 0; }
+  .step { counter-increment: step; }
+  .step::before { content: "Step " counter(step); display: block; font-weight: 600; color: var(--accent); font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+  code { font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace; font-size: 0.9em; }
+  .inline-code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 4px 0; }
+  .note {
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    margin: 16px 0;
+    background: rgba(88,166,255,0.06);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.95em;
+  }
+  .warn {
+    border-left: 3px solid var(--orange);
+    padding: 12px 16px;
+    margin: 16px 0;
+    background: rgba(210,153,29,0.06);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.95em;
+  }
+  .check { color: var(--green); }
+  .xmark { color: var(--red); }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 0.85em; text-transform: uppercase; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+  }
+  .badge-fix { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-warn { background: rgba(210,153,29,0.15); color: var(--orange); }
+  .badge-file { background: rgba(88,166,255,0.15); color: var(--accent); }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85em; text-align: center; }
+  .arch { display: flex; gap: 24px; flex-wrap: wrap; margin: 16px 0; }
+  .arch-box {
+    flex: 1; min-width: 200px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px; text-align: center;
+  }
+  .arch-box strong { display: block; font-size: 1.1em; margin-bottom: 4px; }
+  .arch-box .arrow { font-size: 1.5em; color: var(--accent); }
+  @media (max-width: 600px) { body { padding: 16px 10px; } pre { font-size: 0.78em; } }
+</style>
+</head>
+<body>
+
+<h1>Claude Code <span>+</span> DeepSeek V4 Pro</h1>
+<p class="subtitle">Step-by-step setup guide for Windows 11 (ARM64)</p>
+
+<!-- TOC -->
+<div class="card toc">
+  <strong>Contents</strong>
+  <ol style="margin-top:8px">
+    <li><a href="#prereqs">Prerequisites</a></li>
+    <li><a href="#install-node">Install Node.js</a></li>
+    <li><a href="#install-claude">Install Claude Code CLI</a></li>
+    <li><a href="#install-python">Install Python 3.12</a></li>
+    <li><a href="#proxy-script">Deploy the proxy script</a></li>
+    <li><a href="#launch">Launch Claude Code</a></li>
+    <li><a href="#verify">Verify it works</a></li>
+    <li><a href="#bugs">Bugs encountered &amp; fixes</a></li>
+  </ol>
+</div>
+
+<!-- Architecture -->
+<h2 id="arch">How It Works</h2>
+<div class="arch">
+  <div class="arch-box">
+    <strong>Claude Code CLI</strong>
+    <span style="color:var(--muted)">Anthropic Messages API</span>
+    <div class="arrow">&#8595;</div>
+    <span style="color:var(--accent)">http://localhost:4000</span>
+  </div>
+  <div class="arch-box">
+    <strong>deepseek-proxy.py</strong>
+    <span style="color:var(--muted)">Translates API formats</span>
+    <div class="arrow">&#8595;</div>
+    <span style="color:var(--accent)">api.deepseek.com/v1</span>
+  </div>
+  <div class="arch-box">
+    <strong>DeepSeek V4 Pro</strong>
+    <span style="color:var(--muted)">OpenAI-compatible API</span>
+    <div class="arrow">&#8595;</div>
+    <span style="color:var(--green)">deepseek-chat</span>
+  </div>
+</div>
+<p style="text-align:center;color:var(--muted);margin-top:8px">
+  Claude Code speaks Anthropic&#8217;s API format. DeepSeek speaks OpenAI&#8217;s format.<br>
+  The proxy translates every request &amp; response in real time &mdash; zero dependencies, pure Python stdlib.
+</p>
+
+<!-- Prerequisites -->
+<h2 id="prereqs">1. Prerequisites</h2>
+<div class="card">
+  <table>
+    <tr><th>Component</th><th>Required</th><th>Check command</th></tr>
+    <tr><td>Windows 11 (x64 or ARM64)</td><td><span class="check">&#10003;</span></td><td><code class="inline-code">winver</code></td></tr>
+    <tr><td>Node.js 18+</td><td><span class="check">&#10003;</span></td><td><code class="inline-code">node --version</code></td></tr>
+    <tr><td>Python 3.12+</td><td><span class="check">&#10003;</span></td><td><code class="inline-code">python --version</code></td></tr>
+    <tr><td>DeepSeek API key</td><td><span class="check">&#10003;</span></td><td><code class="inline-code">sk-YOUR-DEEPSEEK-API-KEY-HERE</code></td></tr>
+    <tr><td>Internet access</td><td><span class="check">&#10003;</span></td><td>Reach <code class="inline-code">api.deepseek.com</code></td></tr>
+  </table>
+</div>
+
+<!-- Step 2: Node.js -->
+<h2 id="install-node">2. Install Node.js</h2>
+<div class="card step">
+  <p>Open <strong>PowerShell as Administrator</strong> and run:</p>
+  <pre>winget install OpenJS.NodeJS.LTS --source winget --accept-package-agreements --accept-source-agreements</pre>
+  <p>After install, refresh your PATH:</p>
+  <pre>$env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [Environment]::GetEnvironmentVariable("Path","User")</pre>
+  <p>Verify:</p>
+  <pre>node --version  <span style="color:var(--muted)"># should show v24.x.x or later</span>
+npm --version   <span style="color:var(--muted)"># should show v11.x.x or later</span></pre>
+</div>
+
+<!-- Step 3: Claude Code -->
+<h2 id="install-claude">3. Install Claude Code CLI</h2>
+<div class="card step">
+  <pre>npm install -g @anthropic-ai/claude-code@latest</pre>
+  <p>Verify:</p>
+  <pre>claude --version  <span style="color:var(--muted)"># should show 2.x.x (Claude Code)</span></pre>
+</div>
+
+<!-- Step 4: Python -->
+<h2 id="install-python">4. Install Python 3.12</h2>
+<div class="card step">
+  <pre>winget install Python.Python.3.12 --source winget --accept-package-agreements</pre>
+  <p>Refresh PATH again and install certifi (fixes SSL on some VMs):</p>
+  <pre>$env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [Environment]::GetEnvironmentVariable("Path","User")
+pip install certifi</pre>
+</div>
+
+<!-- Step 5: Proxy -->
+<h2 id="proxy-script">5. Deploy the Proxy Script</h2>
+<div class="card step">
+  <p>Save the file below as <code class="inline-code">deepseek-proxy.py</code> in a convenient folder (e.g. <code class="inline-code">C:\Users\AI_Test\Documents\claude\</code>).</p>
+
+  <details style="margin:12px 0">
+    <summary style="cursor:pointer;color:var(--accent)">Click to expand — deepseek-proxy.py (v7)</summary>
+    <pre style="max-height:400px;overflow-y:auto">"""DeepSeek Proxy for Claude Code — v7
+Translates Anthropic Messages API &lt;-&gt; DeepSeek OpenAI-compatible API.
+Zero dependencies beyond Python stdlib + certifi (for SSL)."""
+
+import json, ssl, sys, uuid
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError
+
+try:
+    import certifi
+    SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
+except ImportError:
+    SSL_CONTEXT = ssl.create_default_context()
+
+DEEPSEEK_KEY   = "sk-YOUR-DEEPSEEK-API-KEY-HERE"
+DEEPSEEK_BASE  = "https://api.deepseek.com/v1"
+DEEPSEEK_MODEL = "deepseek-chat"
+PORT           = 4000
+
+FAKE_MODELS = [
+    {"id": "claude-opus-5",   "type": "model", "display_name": "Claude Opus 5 (DeepSeek V4 Pro)",  "created_at": "2025-06-01T00:00:00Z"},
+    {"id": "claude-sonnet-5", "type": "model", "display_name": "Claude Sonnet 5 (DeepSeek V4 Pro)","created_at": "2025-06-01T00:00:00Z"},
+    {"id": "claude-fable-5",  "type": "model", "display_name": "Claude Fable 5 (DeepSeek V4 Pro)", "created_at": "2025-06-01T00:00:00Z"},
+    {"id": "claude-haiku-4-5","type": "model", "display_name": "Claude Haiku 4.5 (DeepSeek V4 Pro)","created_at": "2024-10-01T00:00:00Z"},
+]
+
+def an_to_ds(an: dict) -> dict:
+    ds = {"model": DEEPSEEK_MODEL, "messages": [], "stream": False}
+    s = an.get("system")
+    if s:
+        if isinstance(s, str):
+            ds["messages"].append({"role": "system", "content": s})
+        elif isinstance(s, list):
+            parts = [b.get("text","") for b in s if isinstance(b,dict) and b.get("type")=="text"]
+            if parts: ds["messages"].append({"role": "system", "content": "\n".join(parts)})
+    for m in an.get("messages", []):
+        c = m.get("content", "")
+        if isinstance(c, list):
+            parts = []
+            for b in c:
+                if not isinstance(b, dict): continue
+                t = b.get("type","")
+                if t == "text":        parts.append(b.get("text",""))
+                elif t == "tool_use":  parts.append(f'[tool_use: {b.get("name","")} {json.dumps(b.get("input",{}))}]')
+                elif t == "tool_result": parts.append(f'[tool_result: {b.get("content","")}]')
+            c = "\n".join(parts)
+        ds["messages"].append({"role": m.get("role","user"), "content": c})
+    if "max_tokens" in an:  ds["max_tokens"]  = an["max_tokens"]
+    if "temperature" in an: ds["temperature"] = an["temperature"]
+    if "top_p" in an:       ds["top_p"]       = an["top_p"]
+    if "stop_sequences" in an: ds["stop"]     = an["stop_sequences"]
+    tools = an.get("tools")
+    if tools:
+        ds["tools"] = [{"type":"function","function":{"name":t.get("name",""),
+            "description":t.get("description",""),"parameters":t.get("input_schema",{})}} for t in tools]
+    return ds
+
+def ds_to_an(ds: dict, an: dict) -> dict:
+    choice = ds.get("choices", [{}])[0]
+    msg    = choice.get("message", {})
+    text   = msg.get("content", "")
+    finish = choice.get("finish_reason", "stop")
+    blocks = []
+    if text:
+        blocks.append({"type": "text", "text": text})
+    for tc in msg.get("tool_calls", []):
+        func = tc.get("function", {})
+        try:    args = json.loads(func.get("arguments", "{}"))
+        except: args = {}
+        blocks.append({"type":"tool_use","id":tc.get("id",f"toolu_{uuid.uuid4().hex[:24]}"),
+                        "name":func.get("name",""),"input":args})
+    stop_map = {"stop":"end_turn","length":"max_tokens","tool_calls":"tool_use"}
+    usage = ds.get("usage", {})
+    return {"id":f"msg_{uuid.uuid4().hex[:24]}","type":"message","role":"assistant",
+        "model":an.get("model","claude-sonnet-5"),"content":blocks,
+        "stop_reason":stop_map.get(finish,"end_turn"),"stop_sequence":None,
+        "usage":{"input_tokens":usage.get("prompt_tokens",0),"output_tokens":usage.get("completion_tokens",0)}}
+
+class H(BaseHTTPRequestHandler):
+    def log_message(self, f, *a): pass
+    def _send(self, data, status=200):
+        body = json.dumps(data, ensure_ascii=False).encode()
+        self.send_response(status)
+        self.send_header("Content-Type","application/json")
+        self.send_header("Content-Length",str(len(body)))
+        self.send_header("Access-Control-Allow-Origin","*")
+        self.end_headers()
+        self.wfile.write(body)
+    def _read(self) -> dict:
+        length = int(self.headers.get("Content-Length", 0))
+        return json.loads(self.rfile.read(length).decode()) if length else {}
+    def _call_ds(self, ep: str, body: dict = None) -> dict:
+        url = f"{DEEPSEEK_BASE}{ep}"
+        h   = {"Authorization":f"Bearer {DEEPSEEK_KEY}","Content-Type":"application/json"}
+        req = Request(url, data=json.dumps(body).encode() if body else None,
+                      headers=h, method="GET" if body is None else "POST")
+        try:
+            with urlopen(req, timeout=180, context=SSL_CONTEXT) as r:
+                return json.loads(r.read().decode())
+        except HTTPError as e:
+            print(f"  !! DeepSeek [{e.code}]: {e.read().decode(errors='replace')[:500]}", flush=True)
+            raise
+    def do_GET(self):
+        p = self.path.split("?")[0]
+        print(f"  GET {p}", flush=True)
+        if p == "/v1/models":
+            self._send({"object":"list","data":FAKE_MODELS,"has_more":False,
+                        "first_id":FAKE_MODELS[0]["id"],"last_id":FAKE_MODELS[-1]["id"]})
+        elif p.startswith("/v1/models/"):
+            mid = p.split("/v1/models/")[1]
+            self._send({"id":mid,"type":"model","display_name":f"DeepSeek V4 Pro (as {mid})",
+                        "created_at":"2025-06-01T00:00:00Z"})
+        elif p == "/health":
+            self._send({"status":"ok"})
+        else:
+            print(f"  ?? UNKNOWN GET: {p}", flush=True)
+            self._send({"error":f"not found: {p}"}, 404)
+    def do_POST(self):
+        p = self.path.split("?")[0]
+        print(f"  POST {p}", flush=True)
+        if p == "/v1/messages":
+            try:
+                an   = self._read()
+                print(f"    model={an.get('model')} msgs={len(an.get('messages',[]))} max_tok={an.get('max_tokens')}", flush=True)
+                ds   = an_to_ds(an)
+                resp = self._call_ds("/chat/completions", ds)
+                out  = ds_to_an(resp, an)
+                print(f"    -> {out['stop_reason']} in={out['usage']['input_tokens']} out={out['usage']['output_tokens']}", flush=True)
+                self._send(out)
+            except Exception as e:
+                print(f"    !! ERROR: {e}", flush=True)
+                self._send({"type":"error","error":{"type":"api_error","message":str(e)}}, 500)
+        else:
+            print(f"  ?? UNKNOWN POST: {p}", flush=True)
+            self._send({"type":"error","error":{"type":"invalid_request_error","message":f"not found: {p}"}}, 404)
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin","*")
+        self.send_header("Access-Control-Allow-Methods","GET,POST,OPTIONS")
+        self.send_header("Access-Control-Allow-Headers","*")
+        self.end_headers()
+
+if __name__ == "__main__":
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else PORT
+    print(f"\n  Proxy: http://localhost:{port}\n  -> DeepSeek: {DEEPSEEK_MODEL} @ {DEEPSEEK_BASE}\n", flush=True)
+    HTTPServer(("0.0.0.0", port), H).serve_forever()</pre>
+  </details>
+
+  <div class="note">
+    <strong>&#9432; How the proxy works:</strong> It listens on <code class="inline-code">0.0.0.0:4000</code> and presents itself as a standard Anthropic API endpoint. Claude Code thinks it&#8217;s talking to <code class="inline-code">claude-opus-5</code> or <code class="inline-code">claude-sonnet-5</code>. Behind the scenes, every request is translated to OpenAI format and forwarded to DeepSeek&#8217;s API.
+  </div>
+</div>
+
+<!-- Step 6: Launch -->
+<h2 id="launch">6. Launch Claude Code</h2>
+<div class="card step">
+  <h3>Terminal 1 — Start the proxy</h3>
+  <pre>python deepseek-proxy.py</pre>
+  <p>You should see:</p>
+  <pre style="color:var(--green)">  Proxy: http://localhost:4000
+  -> DeepSeek: deepseek-chat @ https://api.deepseek.com/v1</pre>
+
+  <h3>Terminal 2 — Launch Claude Code</h3>
+  <pre><span style="color:var(--accent)">$env:ANTHROPIC_BASE_URL</span> = <span style="color:var(--green)">'http://localhost:4000'</span>
+<span style="color:var(--accent)">$env:ANTHROPIC_API_KEY</span>  = <span style="color:var(--green)">'any-value'</span>
+claude</pre>
+
+  <div class="warn">
+    <strong>&#9888; Critical:</strong> Do NOT include <code class="inline-code">/v1</code> in the BASE_URL. Claude Code appends it automatically. Using <code class="inline-code">http://localhost:4000/v1</code> will result in double paths (<code class="inline-code">/v1/v1/messages</code>) and break everything.
+  </div>
+
+  <p>When prompted about the API key, select <strong>Yes</strong>.</p>
+  <p>Claude Code will auto-detect the models from the proxy. Select <code class="inline-code">claude-sonnet-5</code> (or any listed model) — all routes go to DeepSeek V4 Pro.</p>
+</div>
+
+<!-- Step 7: Verify -->
+<h2 id="verify">7. Verify Everything Works</h2>
+<div class="card step">
+  <h3>Check the proxy terminal</h3>
+  <p>When you send a message in Claude Code, the proxy terminal should show:</p>
+  <pre style="color:var(--green)">  GET /v1/models
+  POST /v1/messages
+    model=claude-sonnet-5 msgs=1 max_tok=4096
+    -> end_turn in=15 out=52</pre>
+
+  <h3>Run the standalone API test (optional)</h3>
+  <p>If something is wrong, verify the DeepSeek API directly:</p>
+  <pre>python test-deepseek-api.py</pre>
+  <p>Should output:</p>
+  <pre style="color:var(--green)">Sending to DeepSeek API (using certifi bundle)...
+Model:    deepseek-chat
+Response: Hello!
+Tokens:   {'prompt_tokens': 10, 'completion_tokens': 5, 'total_tokens': 15}
+SUCCESS - API key works!</pre>
+</div>
+
+<!-- Bugs -->
+<h2 id="bugs">8. Bugs Encountered &amp; Fixes</h2>
+<div class="card">
+  <table>
+    <tr><th>Bug</th><th>Symptom</th><th style="min-width:120px">Fix</th></tr>
+    <tr>
+      <td>winget msstore source</td>
+      <td><code class="inline-code">0x8a15005e : The server certificate did not match</code></td>
+      <td><span class="badge badge-fix">Add --source winget</span></td>
+    </tr>
+    <tr>
+      <td>refreshenv not found</td>
+      <td><code class="inline-code">CommandNotFoundException</code></td>
+      <td><span class="badge badge-fix">Reload PATH from registry manually</span></td>
+    </tr>
+    <tr>
+      <td>LiteLLM needs Rust/MSVC</td>
+      <td><code class="inline-code">linker &#96;link.exe&#96; not found</code></td>
+      <td><span class="badge badge-fix">Switched to pure Python proxy</span></td>
+    </tr>
+    <tr>
+      <td>SSL cert verify failed</td>
+      <td><code class="inline-code">CERTIFICATE_VERIFY_FAILED</code></td>
+      <td><span class="badge badge-fix">Install certifi + use ssl.create_default_context()</span></td>
+    </tr>
+    <tr>
+      <td>Model not found</td>
+      <td><code class="inline-code">There's an issue with the selected model</code></td>
+      <td><span class="badge badge-fix">Echo exact model ID back (including [1m] suffix)</span></td>
+    </tr>
+    <tr>
+      <td>Double /v1 path</td>
+      <td><code class="inline-code">POST /v1/v1/messages</code></td>
+      <td><span class="badge badge-fix">Remove /v1 from ANTHROPIC_BASE_URL</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- Quick Reference -->
+<h2>Quick Reference</h2>
+<div class="card">
+  <table>
+    <tr><th>What</th><th>Command / Value</th></tr>
+    <tr><td>Start proxy</td><td><code class="inline-code">python deepseek-proxy.py</code></td></tr>
+    <tr><td>Launch Claude</td><td><code class="inline-code">$env:ANTHROPIC_BASE_URL='http://localhost:4000'; $env:ANTHROPIC_API_KEY='any-value'; claude</code></td></tr>
+    <tr><td>DeepSeek API key</td><td><code class="inline-code">sk-YOUR-DEEPSEEK-API-KEY-HERE</code></td></tr>
+    <tr><td>DeepSeek model</td><td><code class="inline-code">deepseek-chat</code> (V4 Pro)</td></tr>
+    <tr><td>Proxy port</td><td><code class="inline-code">4000</code></td></tr>
+    <tr><td>Claude Code version</td><td><code class="inline-code">2.1.220</code></td></tr>
+    <tr><td>Node.js version</td><td><code class="inline-code">v24.18.0</code></td></tr>
+    <tr><td>Python version</td><td><code class="inline-code">3.12.10</code></td></tr>
+    <tr><td>Platform</td><td>Windows 11 ARM64</td></tr>
+  </table>
+</div>
+
+<div class="footer">
+  Claude Code + DeepSeek V4 Pro &bull; Windows 11 Setup Guide &bull; July 2026
+</div>
+
+</body>
+</html>
